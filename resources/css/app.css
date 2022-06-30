@@ -1,3 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "buttons";
+@import "form";
+@import "vue_select";
+@import "welcome";
+
+h2 {
+    @apply text-3xl font-medium text-gray-600 py-2;
+}
+
+h3 {
+    @apply text-2xl font-medium text-gray-600 py-2;
+}

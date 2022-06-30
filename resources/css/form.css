@@ -1,0 +1,7 @@
+.label {
+    @apply mb-2 block text-sm font-medium text-gray-600;
+}
+
+.input-form {
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-600 placeholder:text-gray-400 focus:border-gray-600 focus:ring-gray-600;
+}
