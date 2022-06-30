@@ -1,0 +1,130 @@
+:root {
+    --vs-controls-size: 0.7;
+    --vs-transition-timing-function: cubic-bezier(1, -0.115, 0.975, 0.855);
+    --vs-transition-duration: 150ms;
+    --vs-controls--spinner-size: 0.7;
+    --vs-controls-size: 0.7;
+}
+.v-select {
+    /* para que se puedan mostrar los options (con absolute) sin que afecte los demas elementos */
+    position: relative;
+}
+
+.vs__dropdown-toggle,
+.vs__dropdown-menu {
+    /* @apply bg-gray-700 w-full rounded-lg text-gray-300; */
+    @apply bg-gray-50  text-gray-600 w-full rounded-lg;
+}
+/* estilos para el input, acciones */
+.vs__dropdown-toggle {
+    @apply flex border px-2;
+}
+
+.vs__dropdown-toggle .vs__selected-options {
+    @apply flex flex-grow;
+}
+
+.vs__dropdown-toggle .vs__selected-options .vs__selected {
+    @apply flex items-center pr-1 text-sm;
+}
+
+.vs__dropdown-toggle .vs__selected-options .vs__search {
+    @apply flex-grow w-full px-0 text-sm  placeholder-gray-400 ring-0 border-none bg-transparent;
+}
+.vs--single.vs--searching .vs__selected {
+    display: none;
+}
+
+.vs__search::-webkit-search-cancel-button {
+    display: none;
+}
+.vs__search::-ms-clear,
+.vs__search::-webkit-search-decoration,
+.vs__search::-webkit-search-results-button,
+.vs__search::-webkit-search-results-decoration {
+    display: none;
+}
+
+.vs__dropdown-toggle .vs__actions {
+    @apply pl-2 flex items-center;
+}
+.vs__dropdown-toggle .vs__actions .vs__clear,
+.vs__dropdown-toggle .vs__actions .vs__open-indicator {
+    @apply fill-gray-500;
+}
+.vs__dropdown-toggle .vs__actions .vs__clear {
+    transform: scale(var(--vs-controls-size));
+    @apply mr-1;
+}
+
+.vs__open-indicator {
+    transform: scale(var(--vs-controls-size));
+    transition: transform var(--vs-transition-duration)
+        var(--vs-transition-timing-function);
+    transition-timing-function: var(--vs-transition-timing-function);
+}
+.vs--open .vs__open-indicator {
+    transform: rotate(180deg) scale(var(--vs-controls-size));
+}
+
+/* Estilos para la seccion desplegable (contenedor de los options) */
+.vs__dropdown-menu {
+    @apply text-sm max-h-52 overflow-y-auto absolute shadow-lg scroll-custom overflow-x-auto snap-y z-10;
+}
+
+/* estilos para los option y cuando no hay opciones*/
+.vs__dropdown-option,
+.vs__no-options {
+    @apply leading-loose whitespace-nowrap px-2 snap-start w-full cursor-default border-b border-gray-100;
+}
+
+/* estilo zebra */
+/* .vs__dropdown-option {
+	@apply odd:bg-gray-200 even:bg-gray-50 relative;
+} */
+
+/* estilos hover en los options */
+.vs__dropdown-option--highlight {
+    @apply transition-all ease-in-out duration-150 bg-teal-500 text-white;
+}
+
+.vs__no-options {
+    text-align: center;
+}
+
+/* spinner */
+.vs__spinner,
+.vs__spinner:after {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    transform: scale(var(--vs-controls--spinner-size, var(--vs-controls-size)));
+}
+.vs__spinner {
+    @apply border-solid border-4 border-gray-200 border-l-gray-500 overflow-hidden text-xs opacity-0 self-center ml-1;
+    font-size: 5px;
+    text-indent: -9999em;
+    transform: translateZ(0)
+        scale(var(--vs-controls--spinner-size, var(--vs-controls-size)));
+    animation: vSelectSpinner 1.1s linear infinite;
+    transition: opacity 0.1s;
+}
+.vs--loading .vs__spinner {
+    @apply opacity-100;
+}
+@-webkit-keyframes vSelectSpinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}
+@keyframes vSelectSpinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}
