@@ -21,4 +21,12 @@ class Alimento extends Model
         'precio',
         'activo',
     ];
+
+    /**
+     * Relacionamos el alimento con una categoria.
+     * Relacion de 1 : N
+     */
+    public function categoria(){
+        return $this->hasOne(CategoriaAlimento::class, 'id', 'categoria_alimento_id');
+    }
 }
