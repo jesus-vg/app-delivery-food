@@ -37,7 +37,6 @@
 </head>
 
 <body class="font-sans antialiased">
-	@include('partials._messages')
 	<div class="min-h-screen bg-gray-100">
 		@include('layouts.navigation')
 
@@ -55,6 +54,7 @@
 					<div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
 						{{-- <div class="bg-white shadow-sm sm:rounded-lg"> --}}
 						<div class="app border-b border-gray-200 bg-white p-6">
+							@include('partials._messages')
 							{{ $slot }}
 						</div>
 					</div>
