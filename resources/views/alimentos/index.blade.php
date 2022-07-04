@@ -22,18 +22,24 @@
 				>Agregar</a>
 			</div>
 		</div>
+
 		@if (count($alimentos) > 0)
-			@include('partials._tabla_bebidas_alimentos', [
+			@include('alimentos._tabla_bebidas_alimentos', [
 			    'data' => $alimentos,
 			    'rutaEditar' => 'alimentos.edit',
 			    'rutaEliminar' => 'alimentos.destroy',
 			])
 		@else
-			<h3 class="h3 text-center">No hay registros por el momento</h3>
+			@include('partials._sin_registros')
 		@endif
 
 		<div class="my-4">
-			<a href="{{ route('categoria_alimentos.index') }}">Administrar categorias</a>
+			<a
+				href="{{ route('categoria_alimentos.index') }}"
+				class="btn-secondary"
+			>
+				Administrar categorias
+			</a>
 		</div>
 	</section>
 </x-app-layout>

@@ -1,6 +1,17 @@
 <x-app-layout>
 	<x-slot name="header">
-		<div class="flex items-center justify-between">
+		@include('partials._bradcrumb', [
+		    'rutas' => [
+		        [
+		            'url' => route('bebidas.index'),
+		            'label' => 'Bebidas',
+		        ],
+		    ],
+		])
+	</x-slot>
+
+	<section>
+		<div class="mb-4 flex items-center justify-between">
 			<h2 class="h2">
 				Bebidas
 			</h2>
@@ -11,17 +22,24 @@
 				>Agregar</a>
 			</div>
 		</div>
-	</x-slot>
 
-	<section>
 		@if (count($bebidas) > 0)
-			@include('partials._tabla_bebidas_alimentos', [
+			@include('alimentos._tabla_bebidas_alimentos', [
 			    'data' => $bebidas,
 			    'rutaEditar' => 'bebidas.edit',
 			    'rutaEliminar' => 'bebidas.destroy',
 			])
 		@else
-			<h3 class="h3 text-center">No hay registros por el momento</h3>
+			@include('partials._sin_registros')
 		@endif
+
+		<div class="my-4">
+			<a
+				href="{{ route('categoria_bebidas.index') }}"
+				class="btn-secondary"
+			>
+				Administrar categorias
+			</a>
+		</div>
 	</section>
 </x-app-layout>
