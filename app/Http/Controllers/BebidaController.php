@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bebida;
 use App\Http\Requests\StoreUpdateAlimentoRequest;
 use Intervention\Image\Facades\Image;
 use App\Models\Alimento;
@@ -19,24 +18,21 @@ class BebidaController extends Controller
      */
     public function index()
     {
-        $bebidas = Alimento::join(
-            'categoria_alimentos',
-            'alimentos.categoria_alimento_id',
-            '=',
-            'categoria_alimentos.id' )
-            ->select(
-                'alimentos.id',
-                'alimentos.categoria_alimento_id',
-                'alimentos.nombre',
-                'alimentos.slug',
-                'alimentos.descripcion',
-                'alimentos.imagen',
-                'alimentos.precio',
-                'alimentos.activo',
-                'alimentos.created_at',
-                'alimentos.updated_at',
-                'categoria_alimentos.nombre as nombre_categoria' ) // ponemos un alias a la columna
-            ->where( 'categoria_alimentos.tipo_categoria', 'bebida' ) // solo los alimentos de tipo bebida
+        $bebidas = Alimento::select(
+            'id',
+            'categoria_alimento_id',
+            'nombre',
+            'slug',
+            'descripcion',
+            'imagen',
+            'precio',
+            'activo',
+            'created_at',
+            'updated_at' )
+            ->whereHas( 'categoria', function ( $q ) {
+                $q->where( 'tipo_categoria', 'like', 'bebida' );
+            } )
+            ->with( 'categoria' )
             ->latest()
             ->paginate( 10, ['*'], 'pagina' );
 
@@ -112,6 +108,8 @@ class BebidaController extends Controller
      */
     public function show( Alimento $bebida )
     {
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
+
         //
     }
 
@@ -123,6 +121,8 @@ class BebidaController extends Controller
      */
     public function edit( Alimento $bebida )
     {
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
+
         $categorias = CategoriaAlimento::select( 'id', 'nombre' )
             ->whereTipoCategoria( 'bebida' )
             ->orderByDesc( 'nombre' )
@@ -146,6 +146,8 @@ class BebidaController extends Controller
         StoreUpdateAlimentoRequest $request,
         Alimento $bebida
     ) {
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
+
         $validated = $request->validated();
 
         $pathImagen = '';
@@ -185,6 +187,8 @@ class BebidaController extends Controller
      */
     public function destroy( Alimento $bebida )
     {
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
+
         try {
             $bebida->delete();
 
@@ -197,10 +201,9 @@ class BebidaController extends Controller
                 'success' => 'Eliminado correctamente',
             ] );
         } catch ( Exception $e ) {
-
             return response()->json( [
-                'error' => 'No se puede eliminar este registro porque se usa para el historial de ventas',
-            ], 403 );
+                'message' => 'No se puede eliminar este registro porque se usa para el historial de ventas',
+            ], 422 );
         }
 
     }
