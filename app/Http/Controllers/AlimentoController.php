@@ -18,51 +18,23 @@ class AlimentoController extends Controller
      */
     public function index()
     {
-        // $alimentos = Alimento::select(
-        //     'id',
-        //     'categoria_alimento_id',
-        //     'nombre',
-        //     'slug',
-        //     'descripcion',
-        //     'imagen',
-        //     'precio',
-        //     'activo',
-        //     'created_at',
-        //     'updated_at' )
-        //     ->where( function ( $query ) {
-        //         $query->select( 'tipo_categoria' )
-        //             ->from( 'categoria_alimentos' )
-        //             ->whereColumn( 'categoria_alimentos.id', 'alimentos.categoria_alimento_id' )
-        //             ->limit( 1 );
-        //     }, 'alimento' )
-        //     ->latest()
-        //     ->paginate( 10, ['*'], 'pagina' );
-
-        // https://laravel.com/docs/9.x/queries#left-join-right-join-clause
-        $alimentos = Alimento::join(
-            'categoria_alimentos',
-            'alimentos.categoria_alimento_id',
-            '=',
-            'categoria_alimentos.id' )
-            ->select(
-                'alimentos.id',
-                'alimentos.categoria_alimento_id',
-                'alimentos.nombre',
-                'alimentos.slug',
-                'alimentos.descripcion',
-                'alimentos.imagen',
-                'alimentos.precio',
-                'alimentos.activo',
-                'alimentos.created_at',
-                'alimentos.updated_at',
-                'categoria_alimentos.nombre as nombre_categoria' ) // ponemos un alias a la columna
-            ->where( 'categoria_alimentos.tipo_categoria', 'alimento' )
+        $alimentos = Alimento::select(
+            'id',
+            'categoria_alimento_id',
+            'nombre',
+            'slug',
+            'descripcion',
+            'imagen',
+            'precio',
+            'activo',
+            'created_at',
+            'updated_at' )
+            ->whereHas( 'categoria', function ( $q ) {
+                $q->where( 'tipo_categoria', 'like', 'alimento' );
+            } )
+            ->with( 'categoria' )
             ->latest()
             ->paginate( 10, ['*'], 'pagina' );
-        // dd( $alimentos );
-        // dd( $alimentos );
-
-        // throwException($e);
 
         return view( 'alimentos.index', [
             'alimentos' => $alimentos,
@@ -133,7 +105,9 @@ class AlimentoController extends Controller
      */
     public function show( Alimento $alimento )
     {
-        //
+        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+
+        return response()->json( $alimento );
     }
 
     /**
@@ -144,6 +118,8 @@ class AlimentoController extends Controller
      */
     public function edit( Alimento $alimento )
     {
+        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+
         $categorias = CategoriaAlimento::select( 'id', 'nombre' )
             ->whereTipoCategoria( 'alimento' )
             ->orderByDesc( 'nombre' )
@@ -168,6 +144,8 @@ class AlimentoController extends Controller
     ) {
         // dd( $request->all() );
         // dd( $alimento );
+        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+
         $validated = $request->validated();
 
         $pathImagen = '';
@@ -195,7 +173,7 @@ class AlimentoController extends Controller
             'imagen' => $pathImagen,
         ] );
 
-        return to_route( 'alimentos.edit', $alimento );
+        return to_route( 'alimentos.edit', $alimento )->with( 'success', 'Datos actualizados correctamente' );
     }
 
     /**
@@ -206,6 +184,8 @@ class AlimentoController extends Controller
      */
     public function destroy( Alimento $alimento )
     {
+        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+
         try {
             $alimento->delete();
 
@@ -218,10 +198,9 @@ class AlimentoController extends Controller
                 'success' => 'Eliminado correctamente',
             ] );
         } catch ( Exception $e ) {
-
             return response()->json( [
-                'error' => 'No se puede eliminar este registro porque se usa para el historial de ventas',
-            ], 403 );
+                'message' => 'No se puede eliminar este registro porque se usa para el historial de ventas',
+            ], 422 );
         }
     }
 }
