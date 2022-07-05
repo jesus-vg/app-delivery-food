@@ -72,7 +72,7 @@
 			/>
 		</div>
 
-		<div class="mb-6">
+		{{-- <div class="mb-6">
 			<x-input-with-validation
 				label="Imagen principal"
 				name="imagen_principal"
@@ -88,7 +88,7 @@
 					class="w-48 rounded-sm"
 				>
 			@endif
-		</div>
+		</div> --}}
 
 		<div class="mb-6">
 			<x-label
