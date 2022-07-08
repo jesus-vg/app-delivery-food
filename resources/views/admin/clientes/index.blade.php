@@ -68,7 +68,7 @@
 								</td>
 								<td class="px-6 py-4">
 									@php
-										$direccion = $cliente->direccion?->direccion . ' ' . $cliente->direccion?->colonia;
+										$direccion = $cliente->direccion?->direccion . ', ' . $cliente->direccion?->colonia;
 									@endphp
 									{{ $direccion ?? 'no hay direccion' }}
 									<br>

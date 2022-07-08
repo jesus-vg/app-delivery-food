@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\CategoriaAlimento;
 use App\Http\Requests\UpdateStoreCategoriaAlimentoRequest;
 use Illuminate\Database\QueryException;
@@ -20,7 +21,7 @@ class CategoriaAlimentoController extends Controller
             ->latest()
             ->paginate( 10, ['*'], 'pagina' );
 
-        return view( 'categorias_alimentos.index', [
+        return view( 'admin.categorias_alimentos.index', [
             'categorias' => $categorias,
         ] );
     }

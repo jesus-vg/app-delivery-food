@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateAlimentoRequest;
+use Intervention\Image\Facades\Image;
 use App\Models\Alimento;
 use App\Models\CategoriaAlimento;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreUpdateAlimentoRequest;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
-class AlimentoController extends Controller
+class BebidaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +19,7 @@ class AlimentoController extends Controller
      */
     public function index()
     {
-        $alimentos = Alimento::select(
+        $bebidas = Alimento::select(
             'id',
             'categoria_alimento_id',
             'nombre',
@@ -30,15 +31,16 @@ class AlimentoController extends Controller
             'created_at',
             'updated_at' )
             ->whereHas( 'categoria', function ( $q ) {
-                $q->where( 'tipo_categoria', 'like', 'alimento' );
+                $q->where( 'tipo_categoria', 'like', 'bebida' );
             } )
             ->with( 'categoria' )
             ->latest()
             ->paginate( 10, ['*'], 'pagina' );
 
-        return view( 'alimentos.index', [
-            'alimentos' => $alimentos,
+        return view( 'admin.bebidas.index', [
+            'bebidas' => $bebidas,
         ] );
+
     }
 
     /**
@@ -49,20 +51,21 @@ class AlimentoController extends Controller
     public function create()
     {
         $categorias = CategoriaAlimento::select( 'id', 'nombre' )
-            ->whereTipoCategoria( 'alimento' )
+            ->whereTipoCategoria( 'bebida' )
             ->orderByDesc( 'nombre' )
             ->get();
 
-        return view( 'alimentos.create', [
-            'alimento'   => new Alimento(),
+        return view( 'admin.bebidas.create', [
+            'bebida'     => new Alimento(),
             'categorias' => $categorias,
         ] );
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAlimentoRequest $request
+     * @param  \App\Http\Requests\StoreUpdateAlimentoRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store( StoreUpdateAlimentoRequest $request )
@@ -70,7 +73,7 @@ class AlimentoController extends Controller
         // dd( $request->all() );
         $validated = $request->validated();
 
-        $alimento = Alimento::create( [
+        $bebida = Alimento::create( [
             ...$validated,
             'imagen' => '',
         ] );
@@ -80,71 +83,71 @@ class AlimentoController extends Controller
         // validamos que existe el campo imagen
         if ( array_key_exists( 'imagen', $validated ) ) {
             // guardamos la imagen en el disco public
-            $pathImagen = $validated['imagen']->store( 'alimentos/' . $alimento->id, 'public' );
+            $pathImagen = $validated['imagen']->store( 'bebidas/' . $bebida->id, 'public' );
 
             // aplicamos el filtro para redimensionar la imagen
             Image::make( public_path( 'storage/' . $pathImagen ) )->fit( 800, 500, function ( $constraint ) {
                 $constraint->upsize();
             } )->save();
         } else {
-            $pathImagen = $alimento->imagen;
+            $pathImagen = $bebida->imagen;
         }
 
-        $alimento->update( [
+        $bebida->update( [
             'imagen' => $pathImagen,
         ] );
 
-        return to_route( 'alimentos.edit', $alimento );
+        return to_route( 'bebidas.edit', $bebida );
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Alimento        $alimento
+     * @param  \App\Models\Alimento        $bebida
      * @return \Illuminate\Http\Response
      */
-    public function show( Alimento $alimento )
+    public function show( Alimento $bebida )
     {
-        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
 
-        return response()->json( $alimento );
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Alimento        $alimento
+     * @param  \App\Models\Alimento        $bebida
      * @return \Illuminate\Http\Response
      */
-    public function edit( Alimento $alimento )
+    public function edit( Alimento $bebida )
     {
-        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
 
         $categorias = CategoriaAlimento::select( 'id', 'nombre' )
-            ->whereTipoCategoria( 'alimento' )
+            ->whereTipoCategoria( 'bebida' )
             ->orderByDesc( 'nombre' )
             ->get();
 
-        return view( 'alimentos.edit', [
-            'alimento'   => $alimento,
+        return view( 'admin.bebidas.edit', [
+            'bebida'     => $bebida,
             'categorias' => $categorias,
         ] );
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAlimentoRequest $request
-     * @param  \App\Models\Alimento                     $alimento
+     * @param  \App\Http\Requests\UpdateBebidaRequest $request
+     * @param  \App\Models\Alimento                   $bebida
      * @return \Illuminate\Http\Response
      */
     public function update(
         StoreUpdateAlimentoRequest $request,
-        Alimento $alimento
+        Alimento $bebida
     ) {
-        // dd( $request->all() );
-        // dd( $alimento );
-        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
 
         $validated = $request->validated();
 
@@ -153,7 +156,7 @@ class AlimentoController extends Controller
         // validamos que existe el campo imagen
         if ( array_key_exists( 'imagen', $validated ) ) {
             // guardamos la imagen en el disco public
-            $pathImagen = $validated['imagen']->store( 'alimentos/' . $alimento->id, 'public' );
+            $pathImagen = $validated['imagen']->store( 'bebidas/' . $bebida->id, 'public' );
 
             // aplicamos el filtro para redimensionar la imagen
             Image::make( public_path( 'storage/' . $pathImagen ) )->fit( 800, 500, function ( $constraint ) {
@@ -161,37 +164,38 @@ class AlimentoController extends Controller
             } )->save();
 
             // Eliminamos la imagen anterior si existe
-            if ( $alimento->imagen && Storage::disk( 'public' )->exists( $alimento->imagen ) ) {
-                Storage::disk( 'public' )->delete( $alimento->imagen );
+            if ( $bebida->imagen && Storage::disk( 'public' )->exists( $bebida->imagen ) ) {
+                Storage::disk( 'public' )->delete( $bebida->imagen );
             }
         } else {
-            $pathImagen = $alimento->imagen;
+            $pathImagen = $bebida->imagen;
         }
 
-        $alimento->update( [
+        $bebida->update( [
             ...$validated,
             'imagen' => $pathImagen,
         ] );
 
-        return to_route( 'alimentos.edit', $alimento )->with( 'success', 'Datos actualizados correctamente' );
+        return to_route( 'bebidas.edit', $bebida );
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Alimento        $alimento
+     * @param  \App\Models\Alimento        $bebida
      * @return \Illuminate\Http\Response
      */
-    public function destroy( Alimento $alimento )
+    public function destroy( Alimento $bebida )
     {
-        abort_unless( $alimento->categoria->tipo_categoria === 'alimento', 404 );
+        abort_unless( $bebida->categoria->tipo_categoria === 'bebida', 404 );
 
         try {
-            $alimento->delete();
+            $bebida->delete();
 
             // Eliminamos el directorio de las imagenes
-            if ( Storage::disk( 'public' )->exists( 'alimentos/' . $alimento->id ) ) {
-                Storage::disk( 'public' )->deleteDirectory( 'alimentos/' . $alimento->id );
+            if ( Storage::disk( 'public' )->exists( 'bebidas/' . $bebida->id ) ) {
+                Storage::disk( 'public' )->deleteDirectory( 'bebidas/' . $bebida->id );
             }
 
             return response()->json( [
@@ -202,5 +206,6 @@ class AlimentoController extends Controller
                 'message' => 'No se puede eliminar este registro porque se usa para el historial de ventas',
             ], 422 );
         }
+
     }
 }

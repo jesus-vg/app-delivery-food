@@ -25,7 +25,7 @@
 			role="form"
 		>
 			@method('put')
-			@include('alimentos._form', [
+			@include('admin.alimentos._form', [
 			    'btnText' => 'Actualizar',
 			    'data' => $alimento,
 			])

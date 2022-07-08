@@ -24,7 +24,7 @@
 					action="{{ route('categoria_alimentos.store') }}"
 					method="post"
 				>
-					@include('categorias_alimentos._form')
+					@include('admin.categorias_alimentos._form')
 				</form>
 			</fieldset>
 		</div>
@@ -34,7 +34,7 @@
 			<h2 class="h2 mb-4 text-center">
 				Categorias disponibles
 			</h2>
-			@include('categorias_alimentos._table', [
+			@include('admin.categorias_alimentos._table', [
 			    'categorias' => $categorias,
 			    'rutaUpdate' => 'categoria_alimentos.update',
 			    'rutaDestroy' => 'categoria_alimentos.destroy',

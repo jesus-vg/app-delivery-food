@@ -24,7 +24,7 @@
 		</div>
 
 		@if (count($bebidas) > 0)
-			@include('alimentos._tabla_bebidas_alimentos', [
+			@include('admin.alimentos._tabla_bebidas_alimentos', [
 			    'data' => $bebidas,
 			    'rutaEditar' => 'bebidas.edit',
 			    'rutaEliminar' => 'bebidas.destroy',

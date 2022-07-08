@@ -1,15 +1,14 @@
 <?php
 
-use App\Http\Controllers\AlimentoController;
-use App\Http\Controllers\BebidaController;
-use App\Http\Controllers\CategoriaAlimentoController;
-use App\Http\Controllers\CategoriaBebidaController;
-use App\Http\Controllers\ClienteController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\admin\AlimentoController;
+use App\Http\Controllers\admin\BebidaController;
+use App\Http\Controllers\admin\CategoriaAlimentoController;
+use App\Http\Controllers\admin\CategoriaBebidaController;
+use App\Http\Controllers\admin\ClienteController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\admin\EmpresaController;
 use App\Http\Controllers\ImagenController;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\customer\ClienteController as CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +22,11 @@ use Illuminate\Support\Facades\Storage;
  */
 
 Route::middleware( ['auth', 'user_admin'] )
+    ->prefix( 'admin' )
     ->group( function () {
-        Route::get( '/dashboard', function () {
-            return to_route( 'empresa.edit' );
-        } )->name( 'dashboard' );
+        Route::get( '/', function () {
+            return view( 'admin.index' );
+        } )->name( 'admin.dashboard' );
 
         Route::controller( EmpresaController::class )
             ->prefix( 'empresa' )
@@ -94,8 +94,13 @@ Route::middleware( ['auth', 'user_admin'] )
     } );
 
 Route::middleware( ['auth', 'user_cliente'] )
+    ->prefix( 'cliente' )
     ->group( function () {
-        Route::controller( ClienteController::class )
+        Route::get( '/', function () {
+            return view( 'customer.index' );
+        } )->name( 'cliente.dashboard' );
+
+        Route::controller( CustomerController::class )
             ->prefix( 'cuenta' )
             ->name( 'cuenta.' )
             ->group( function () {
@@ -111,11 +116,28 @@ Route::middleware( ['auth', 'user_cliente'] )
 
 require __DIR__ . '/auth.php';
 
+// Ruta para redirijir al usuario a su dasboard respectivo
+// util para poder usar el breadcrumb
+Route::get( '/dashboard', function () {
+    if ( auth()->check() ) {
+        switch ( auth()->user()->type ) {
+            case 'cliente':
+                return to_route( 'cliente.dashboard' );
+                break;
+            case 'admin':
+                return to_route( 'admin.dashboard' );
+                break;
+        }
+    }
+
+    return to_route( 'home' );
+} )->name( 'dashboard' );
+
 // rutas libres
 
 Route::get( '/', function () {
     return view( 'welcome' );
-} );
+} )->name( 'home' );
 
 Route::controller( ImagenController::class )->prefix( 'imagen' )->group( function () {
     Route::get( '/{path?}', 'getImagenMini' )->name( 'imagen.getImagenMini' );

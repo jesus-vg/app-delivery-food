@@ -168,6 +168,13 @@
 				>Actualizar</button>
 			</div>
 		</form>
+		<div
+			class="mb-4 mt-10 rounded-lg bg-blue-100 p-4 text-sm text-blue-700 dark:bg-blue-200 dark:text-blue-800"
+			role="alert"
+		>
+			<span class="font-bold">Estimado usuario,</span> te pedimos encarecidamente que tengas actualizado siempre tus
+			datos e información de tu ubicación para que podamos brindarte un mejor servicio.
+		</div>
 		@php
 			$messageConfirmacion = 'Tu cuenta se eliminará y toda la información relacionada, <strong>no habrá vuelta atrás</strong><br>¿Deseas continuar?';
 		@endphp

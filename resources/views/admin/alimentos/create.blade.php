@@ -24,7 +24,7 @@
 			enctype="multipart/form-data"
 			role="form"
 		>
-			@include('alimentos._form', [
+			@include('admin.alimentos._form', [
 			    'btnText' => 'Agregar',
 			    'data' => $alimento,
 			])
