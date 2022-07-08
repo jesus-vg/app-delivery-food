@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'telefono',
     ];
 
     /**
@@ -41,4 +42,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relacionamos el usuario con una unica direccion.
+     * Relacion de 1 : 1
+     */
+    public function direccion()
+    {
+        return $this->hasOne( Direccion::class, 'usuario_id', 'id' );
+    }
 }
