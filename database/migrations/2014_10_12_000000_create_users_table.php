@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string( 'password' );
             $table->rememberToken();
             $table->string( 'type', 20 )->default( 'cliente' ); // admin / cliente
+            $table->string( 'telefono', 20 )->nullable();
             $table->timestamps();
         } );
     }
