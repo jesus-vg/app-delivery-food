@@ -20,12 +20,23 @@ class UserSeeder extends Seeder
     {
         //
         DB::table( 'users' )->insert( [
-            'name'            => 'Jesus Villegas gonzalez',
+            'name'              => 'Jesus Villegas gonzalez',
             'email'             => 'jesus@gmail.com',
             'email_verified_at' => now(),
             'password'          => Hash::make( 12345678 ),
             'remember_token'    => Str::random( 10 ),
             'type'              => 'admin',
+            'created_at'        => now(),
+            'updated_at'        => now(),
+        ] );
+
+        DB::table( 'users' )->insert( [
+            'name'              => 'Chucho',
+            'email'             => 'chucho@gmail.com',
+            'email_verified_at' => now(),
+            'password'          => Hash::make( 12345678 ),
+            'remember_token'    => Str::random( 10 ),
+            'type'              => 'cliente',
             'created_at'        => now(),
             'updated_at'        => now(),
         ] );
