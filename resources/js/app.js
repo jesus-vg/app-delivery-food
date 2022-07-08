@@ -27,6 +27,10 @@ app.component(
     "editar-elemento",
     require("./components/shared/Editar.vue").default
 );
+app.component(
+    "update-password",
+    require("./components/cliente/updatePassword.vue").default
+);
 
 // mount the app
 app.mount(".app");
