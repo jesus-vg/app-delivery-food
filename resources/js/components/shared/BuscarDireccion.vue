@@ -41,7 +41,7 @@
 
     <div
         id="mapa"
-        class="z-0 mb-2 h-56 w-full rounded-lg border border-gray-300"
+        class="z-0 mb-2 h-96 w-full rounded-lg border border-gray-300"
     ></div>
 
     <input type="hidden" name="latitud" :value="lat" />
@@ -73,8 +73,8 @@ export default {
             mapa: null,
             marker: null,
             geocodeService: null,
-            lat: this.oldlat || 20.666332695977,
-            lng: this.oldlng || -103.392177745699,
+            lat: this.oldlat || 17.54591000000005,
+            lng: this.oldlng || -98.57582999999994,
             zoom: 16,
         };
     },
