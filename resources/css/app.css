@@ -5,11 +5,20 @@
 @import "form";
 @import "vue_select";
 @import "welcome";
+@import "general";
 
-h2 {
-    @apply text-3xl font-medium text-gray-600 py-2;
+body {
+    min-width: 320px;
 }
 
-h3 {
-    @apply text-2xl font-medium text-gray-600 py-2;
+.h1 {
+    @apply text-4xl font-medium text-gray-600;
+}
+
+.h2 {
+    @apply text-3xl font-medium text-gray-600;
+}
+
+.h3 {
+    @apply text-2xl font-medium text-gray-600;
 }
