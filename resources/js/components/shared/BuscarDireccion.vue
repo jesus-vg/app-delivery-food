@@ -24,7 +24,7 @@
                 </span>
             </template>
             <em v-else style="opacity: 0.5">
-                Busca la derección del establecimiento
+                Escribe para buscar una dirección
             </em>
         </template>
         <template v-slot:option="option">
