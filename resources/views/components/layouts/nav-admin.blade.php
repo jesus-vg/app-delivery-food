@@ -8,7 +8,7 @@
 			<div class="flex">
 				<!-- Logo -->
 				<div class="flex shrink-0 items-center">
-					<a href="{{ route('dashboard') }}">
+					<a href="{{ route('home') }}">
 						<x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
 					</a>
 				</div>
@@ -16,34 +16,40 @@
 				<!-- Navigation Links -->
 				<div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 					<x-nav-link
-						:href="route('dashboard')"
-						:active="request()->routeIs('dashboard')"
+						:href="route('admin.dashboard')"
+						:active="request()->routeIs('admin.dashboard')"
 					>
-						{{ __('Dashboard') }}
+						Inicio
 					</x-nav-link>
 					<x-nav-link
 						:href="route('alimentos.index')"
 						:active="request()->routeIs('alimentos.index')"
 					>
-						{{ __('Alimentos') }}
+						Alimentos
 					</x-nav-link>
 					<x-nav-link
 						:href="route('bebidas.index')"
 						:active="request()->routeIs('bebidas.index')"
 					>
-						{{ __('Bebidas') }}
+						Bebidas
 					</x-nav-link>
 					<x-nav-link
 						:href="route('clientes.index')"
 						:active="request()->routeIs('clientes.index')"
 					>
-						{{ __('Clientes') }}
+						Clientes
+					</x-nav-link>
+					<x-nav-link
+						:href="route('clientes.index')"
+						:active="request()->routeIs('clientes.index')"
+					>
+						Pedidos
 					</x-nav-link>
 				</div>
 			</div>
 
-			<!-- Settings Dropdown -->
 			<div class="hidden sm:ml-6 sm:flex sm:items-center">
+				<!-- Settings Dropdown -->
 				<x-dropdown
 					align="right"
 					width="48"
@@ -89,6 +95,7 @@
 					</x-slot>
 				</x-dropdown>
 			</div>
+
 
 			<!-- Hamburger -->
 			<div class="-mr-2 flex items-center sm:hidden">

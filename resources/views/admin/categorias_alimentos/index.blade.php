@@ -1,17 +1,15 @@
-<x-app-layout>
+<x-layouts.admin title="Administrar categorías">
 	<x-slot name="header">
-		@include('partials._bradcrumb', [
-		    'rutas' => [
-		        [
-		            'url' => route('alimentos.index'),
-		            'label' => 'Alimentos',
-		        ],
-		        [
-		            'url' => '',
-		            'label' => 'Categorias',
-		        ],
+		<x-breadcrumb :rutas="[
+		    [
+		        'url' => route('alimentos.index'),
+		        'label' => 'Alimentos',
 		    ],
-		])
+		    [
+		        'url' => '',
+		        'label' => 'Categorías',
+		    ],
+		]" />
 	</x-slot>
 
 	<section>
@@ -32,7 +30,7 @@
 		@if (count($categorias) > 0)
 			<modal ref="modalEditarCategoria"></modal>
 			<h2 class="h2 mb-4 text-center">
-				Categorias disponibles
+				Categorías disponibles
 			</h2>
 			@include('admin.categorias_alimentos._table', [
 			    'categorias' => $categorias,
@@ -43,4 +41,4 @@
 			@include('partials._sin_registros')
 		@endif
 	</section>
-</x-app-layout>
+</x-layouts.admin>

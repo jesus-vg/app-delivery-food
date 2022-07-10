@@ -1,11 +1,21 @@
-<x-app-layout>
+<x-layouts.admin title="Editar bebida">
 	<x-slot name="header">
-		<h2 class="h2">
-			Editar bebida
-		</h2>
+		<x-breadcrumb :rutas="[
+		    [
+		        'url' => route('bebidas.index'),
+		        'label' => 'Bebidas',
+		    ],
+		    [
+		        'url' => '',
+		        'label' => 'Editar',
+		    ],
+		]" />
 	</x-slot>
 
 	<section>
+		<h2 class="h2 mb-6 text-center">
+			Editar bebida
+		</h2>
 		<form
 			action="{{ route('bebidas.update', $bebida) }}"
 			method="post"
@@ -25,4 +35,4 @@
 		 window.APP_URL = '{{ url('/') }}';
 		</script>
 	</x-slot>
-</x-app-layout>
+</x-layouts.admin>

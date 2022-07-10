@@ -1,11 +1,21 @@
-<x-app-layout>
+<x-layouts.admin title="Crear bebida">
 	<x-slot name="header">
-		<h2 class="h2">
-			Agregar nueva bebida
-		</h2>
+		<x-breadcrumb :rutas="[
+		    [
+		        'url' => route('bebidas.index'),
+		        'label' => 'Bebidas',
+		    ],
+		    [
+		        'url' => '',
+		        'label' => 'Agregar',
+		    ],
+		]" />
 	</x-slot>
 
 	<section>
+		<h2 class="h1 mb-6 text-center">
+			Agregar nueva bebida
+		</h2>
 		<form
 			action="{{ route('bebidas.store') }}"
 			method="post"
@@ -18,4 +28,4 @@
 			])
 		</form>
 	</section>
-</x-app-layout>
+</x-layouts.admin>

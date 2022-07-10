@@ -1,17 +1,15 @@
-<x-app-layout>
+<x-layouts.admin title="Crear alimento">
 	<x-slot name="header">
-		@include('partials._bradcrumb', [
-		    'rutas' => [
-		        [
-		            'url' => route('alimentos.index'),
-		            'label' => 'Alimentos',
-		        ],
-		        [
-		            'url' => '',
-		            'label' => 'Agregar',
-		        ],
+		<x-breadcrumb :rutas="[
+		    [
+		        'url' => route('alimentos.index'),
+		        'label' => 'alimentos',
 		    ],
-		])
+		    [
+		        'url' => '',
+		        'label' => 'agregar',
+		    ],
+		]" />
 	</x-slot>
 
 	<section>
@@ -30,4 +28,4 @@
 			])
 		</form>
 	</section>
-</x-app-layout>
+</x-layouts.admin>

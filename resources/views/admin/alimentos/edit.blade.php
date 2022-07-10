@@ -1,17 +1,15 @@
-<x-app-layout>
+<x-layouts.admin title="Editar alimento">
 	<x-slot name="header">
-		@include('partials._bradcrumb', [
-		    'rutas' => [
-		        [
-		            'url' => route('alimentos.index'),
-		            'label' => 'Alimentos',
-		        ],
-		        [
-		            'url' => '',
-		            'label' => 'Editar',
-		        ],
+		<x-breadcrumb :rutas="[
+		    [
+		        'url' => route('alimentos.index'),
+		        'label' => 'Alimentos',
 		    ],
-		])
+		    [
+		        'url' => '',
+		        'label' => 'Editar',
+		    ],
+		]" />
 	</x-slot>
 
 	<section>
@@ -37,4 +35,4 @@
 		 window.APP_URL = '{{ url('/') }}';
 		</script>
 	</x-slot>
-</x-app-layout>
+</x-layouts.admin>

@@ -1,13 +1,10 @@
-<x-app-layout>
+<x-layouts.admin title="Clientes registrados">
 	<x-slot name="header">
-		@include('partials._bradcrumb', [
-		    'rutas' => [
-		        [
-		            'url' => route('clientes.index'),
-		            'label' => 'Clientes',
-		        ],
+		<x-breadcrumb :rutas="[
+		    [
+		        'label' => 'Clientes registrados',
 		    ],
-		])
+		]" />
 	</x-slot>
 
 	<section>
@@ -93,4 +90,4 @@
 			@include('partials._sin_registros')
 		@endif
 	</section>
-</x-app-layout>
+</x-layouts.admin>

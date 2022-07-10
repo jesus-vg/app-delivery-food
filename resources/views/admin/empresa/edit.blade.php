@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts.admin title="Editar datos de la empresa">
 
 	<x-slot name="styles">
 		{{-- https://leafletjs.com/download.html --}}
@@ -50,10 +50,12 @@
 
 
 	<x-slot name="header">
-		<h2 class="text-xl font-semibold leading-tight text-gray-800">
-			Editar datos de la empresa
-		</h2>
+		<x-breadcrumb :rutas="[['label' => 'Editar datos de la empresa']]" />
 	</x-slot>
+
+	<h2 class="h2 mb-6 text-center">
+		Editar datos de la empresa
+	</h2>
 
 	<form
 		method="post"
@@ -61,6 +63,7 @@
 	>
 		@csrf
 		@method('PUT')
+
 		<div class="mb-4">
 			<x-input-with-validation
 				label="Nombre de la empresa"
@@ -180,4 +183,4 @@
 		 window.APP_URL = '{{ url('/') }}';
 		</script>
 	</x-slot>
-</x-app-layout>
+</x-layouts.admin>
