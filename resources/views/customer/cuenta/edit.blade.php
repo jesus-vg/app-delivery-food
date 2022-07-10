@@ -1,4 +1,5 @@
-<x-cliente-layout>
+<x-layouts.customer title="Editar cuenta">
+
 	<x-slot name="styles">
 		{{-- https://leafletjs.com/download.html --}}
 		{{-- leaflet --}}
@@ -40,21 +41,18 @@
 
 
 	<x-slot name="header">
-		@include('partials._bradcrumb', [
-		    'rutas' => [
-		        [
-		            'url' => route('clientes.index'),
-		            'label' => 'Cuenta',
-		        ],
+		<x-breadcrumb :rutas="[
+		    [
+		        'label' => 'Editar cuenta',
 		    ],
-		])
-		{{-- @dump($user->direccion()) --}}
+		]" />
 	</x-slot>
 
 	<section>
 		<h2 class="h2 mb-4 text-center">
 			Editar cuenta
 		</h2>
+		<x-separador class="mb-4 text-center" />
 		<form
 			action="{{ route('cuenta.update', $user) }}"
 			method="POST"
@@ -66,8 +64,8 @@
 				class="mb-4"
 				:errors="$errors"
 			/>
-			<fieldset class="my-4 rounded border border-gray-200 p-4">
-				<legend class="text-base font-bold uppercase tracking-wide text-gray-600">
+			<fieldset class="my-4 rounded border border-gray-300 p-4">
+				<legend class="text-base font-semibold uppercase tracking-wide text-gray-600">
 					Datos del usuario
 				</legend>
 				<div class="mb-4">
@@ -95,8 +93,9 @@
 				</div>
 				<update-password old-error=""></update-password>
 			</fieldset>
-			<fieldset class="my-4 rounded border border-gray-200 p-4">
-				<legend class="text-base font-bold uppercase tracking-wide text-gray-600">
+
+			<fieldset class="my-4 rounded border border-gray-300 p-4">
+				<legend class="text-base font-semibold uppercase tracking-wide text-gray-600">
 					Datos de la dirección
 				</legend>
 				@if (!$user->direccion)
@@ -178,7 +177,7 @@
 		@php
 			$messageConfirmacion = 'Tu cuenta se eliminará y toda la información relacionada, <strong>no habrá vuelta atrás</strong><br>¿Deseas continuar?';
 		@endphp
-		<hr class="my-8 mx-auto w-1/2">
+		<x-separador class="py-4 text-center" />
 		<div class="hidden">
 			<eliminar-elemento
 				url="{{ route('cuenta.destroy', $user) }}"
@@ -193,4 +192,4 @@
 			>Eliminar</button>
 		</div>
 	</section>
-</x-cliente-layout>
+</x-layouts.customer>
