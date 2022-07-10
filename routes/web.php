@@ -122,10 +122,10 @@ Route::get( '/dashboard', function () {
     if ( auth()->check() ) {
         switch ( auth()->user()->type ) {
             case 'cliente':
-                return to_route( 'cliente.dashboard' );
+                return to_route( 'cliente.dashboard' )->with( 'greeting', '_' );
                 break;
             case 'admin':
-                return to_route( 'admin.dashboard' );
+                return to_route( 'admin.dashboard' )->with( 'greeting', '_' );
                 break;
         }
     }
