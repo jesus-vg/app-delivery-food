@@ -45,7 +45,12 @@
 	{{ $styles ?? '' }}
 </head>
 
-<body class="font-sans antialiased">
+<body
+	class="font-sans antialiased"
+	x-data="{ 'isModalOpen': false }"
+	:class="{ 'overflow-hidden': isModalOpen, '': !isModalOpen }"
+	x-on:keydown.escape="isModalOpen=false"
+>
 	<div class="flex min-h-screen flex-col bg-gray-100">
 		<x-layouts.nav-guest />
 
