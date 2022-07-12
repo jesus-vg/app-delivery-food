@@ -48,7 +48,7 @@
 		]" />
 	</x-slot>
 
-	<section>
+	<section class="app">
 		<h2 class="h2 mb-4 text-center">
 			Editar cuenta
 		</h2>
