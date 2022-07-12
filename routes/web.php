@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\admin\AlimentoController;
-use App\Http\Controllers\admin\BebidaController;
+use App\Http\Controllers\admin\AlimentoController as AdminAlimentoController;
+use App\Http\Controllers\admin\BebidaController as AdminBebidaController;
 use App\Http\Controllers\admin\CategoriaAlimentoController;
 use App\Http\Controllers\admin\CategoriaBebidaController;
 use App\Http\Controllers\admin\ClienteController;
@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\EmpresaController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\customer\ClienteController as CustomerController;
+use App\Http\Controllers\customer\PedidoController as CustomerPredidoController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AlimentoController;
+use App\Http\Controllers\BebidaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +51,7 @@ Route::middleware( ['auth', 'user_admin'] )
                 Route::delete( '/{categoria}', 'destroy' )->name( 'destroy' );
             } );
 
-        Route::controller( AlimentoController::class )
+        Route::controller( AdminAlimentoController::class )
             ->prefix( 'alimentos' )
             ->name( 'alimentos.' )
             ->group( function () {
@@ -69,7 +74,7 @@ Route::middleware( ['auth', 'user_admin'] )
                 Route::delete( '/{categoria}', 'destroy' )->name( 'destroy' );
             } );
 
-        Route::controller( BebidaController::class )
+        Route::controller( AdminBebidaController::class )
             ->prefix( 'bebidas' )
             ->name( 'bebidas.' )
             ->group( function () {
@@ -112,6 +117,10 @@ Route::middleware( ['auth', 'user_cliente'] )
         // Route::get( '/cuenta', [ClienteController::class, 'edit'] )->name( 'cuenta.edit' );
         // Route::put( '/cuenta/{user}', [ClienteController::class, 'update'] )->name( 'cuenta.update' );
         // Route::delete( '/cuenta/{user}', [ClienteController::class, 'destroy'] )->name( 'cuenta.destroy' );
+
+        Route::resource( 'pedidos', CustomerPredidoController::class )
+            ->names( 'customer_pedidos' ); // nombre de las rutas ej. vacantes.index, vacantes.create, etc
+
     } );
 
 require __DIR__ . '/auth.php';
@@ -135,9 +144,8 @@ Route::get( '/dashboard', function () {
 
 // rutas libres
 
-Route::get( '/', function () {
-    return view( 'welcome' );
-} )->name( 'home' );
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/contacto', [HomeController::class, 'contacto'])->name('contacto');
 
 Route::controller( ImagenController::class )->prefix( 'imagen' )->group( function () {
     Route::get( '/{path?}', 'getImagenMini' )->name( 'imagen.getImagenMini' );
@@ -145,6 +153,16 @@ Route::controller( ImagenController::class )->prefix( 'imagen' )->group( functio
 
 Route::controller( AlimentoController::class )
     ->prefix( 'alimentos' )
+    ->name('guest_alimentos.')
     ->group( function () {
-        Route::get( '/{alimento:slug}', 'show' )->name( 'alimentos.show' );
+        Route::get( '/', 'index' )->name( 'index' );
+        Route::get( '/{alimento:slug}', 'show' )->name( 'show' );
+    } );
+
+Route::controller( BebidaController::class )
+    ->prefix( 'bebidas' )
+    ->name( 'guest_bebidas.' )
+    ->group( function () {
+        Route::get( '/', 'index' )->name( 'index' );
+        Route::get( '/{bebida:slug}', 'show' )->name( 'show' );
     } );
