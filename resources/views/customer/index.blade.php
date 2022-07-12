@@ -9,11 +9,10 @@
 		<h1 class="h3 py-8 text-center">Elige la actividad que desea realizar en las siguientes opciones</h1>
 		<main class="flex flex-wrap items-center justify-center pb-4">
 			<a
-				href="{{ route('clientes.index') }}"
+				href="{{ route('customer_pedidos.index') }}"
 				class="mr-2 mb-2 rounded-lg bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-800"
 			>
 				Ver pedidos
-
 			</a>
 			<a
 				href="{{ route('empresa.edit') }}"
