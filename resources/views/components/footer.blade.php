@@ -11,29 +11,35 @@
 						class="mr-3 h-8"
 						alt="Flowbite Logo"
 					>
-					<span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Flowbite</span>
+					<span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+						{{ $infoEmpresa->nombre }}
+					</span>
 				</a>
 				<ul class="flex flex-col items-center text-sm leading-8 text-gray-500 dark:text-gray-400 sm:mb-0">
 					<li>
 						<a
 							href="#"
 							class="hover:underline"
-						>Acerca de</a>
+						>
+							Acerca de
+						</a>
 					</li>
 					<li>
 						<a
-							href="#"
+							href="{{ route('contacto') }}"
 							class="hover:underline"
-						>Contact0</a>
+						>
+							Contacto
+						</a>
 					</li>
 				</ul>
 			</div>
-			<div class="text-sm text-gray-500">
-				Visítanos en calle asda, contaols Tlapa de comonfort Guerrero
+			<div class="text-sm text-gray-400">
+				Visítanos en {{ $infoEmpresa->direccion }}, {{ $infoEmpresa->colonia }}
 				<br>
-				Atendemos desde las 23.03 hasta las 45:00
+				Atendemos desde las {{ $horaApertura }} hasta las {{ $horaCierre }}
 				<br>
-				Llámanos al Tel. 7567443534 y realiza tu pedido
+				Llámanos al Tel. {{ $infoEmpresa->telefono }} y realiza tu pedido
 				<hr class="my-2 w-2/3 border-gray-200 dark:border-gray-700">
 				También puedes realizar tu pedido en esta plataforma.
 			</div>
@@ -41,7 +47,10 @@
 
 		<hr class="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8">
 		<div class="py-6 px-4 text-center md:flex md:items-center md:justify-between">
-			<span class="text-sm text-gray-300">© {{ date('Y') }} <a href="https://flowbite.com/">Flowbite™</a>.
+			<span class="text-sm text-gray-300">© {{ date('Y') }}
+				<a href="https://flowbite.com/">
+					{{ $infoEmpresa->nombre }}.
+				</a>
 				Todos los derechos reservados.
 			</span>
 			<div class="mt-4 flex justify-center space-x-6 md:mt-0">
