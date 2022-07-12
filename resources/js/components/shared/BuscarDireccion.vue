@@ -125,8 +125,13 @@ export default {
                         console.log(error);
                     } else {
                         // console.log(result);
-                        const { Address, Neighborhood, LongLabel, City } =
-                            result.address;
+                        const {
+                            Address,
+                            LongLabel,
+                            City,
+                            Subregion,
+                            RegionAbbr,
+                        } = result.address;
 
                         // actualizamos la ubicacion del mapa
                         this.mapa.setView([lat, lng], this.zoom);
@@ -144,7 +149,7 @@ export default {
                         document.getElementById("direccion").value =
                             Address || "";
                         document.getElementById("colonia").value =
-                            Neighborhood || City || "";
+                            City + ", " + Subregion + " " + RegionAbbr + ".";
                     }
                 });
         },
